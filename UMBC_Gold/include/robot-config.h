@@ -8,6 +8,8 @@ extern motor_group FlyWheel;
 extern motor intake;
 extern motor_group RightDrive;
 extern motor_group LeftDrive;
+extern motor Roller;
+extern motor Indexer;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

@@ -19,6 +19,8 @@ motor_group RightDrive = motor_group(RightDriveMotorA, RightDriveMotorB);
 motor LeftDriveMotorA = motor(PORT17, ratio18_1, false);
 motor LeftDriveMotorB = motor(PORT16, ratio18_1, true);
 motor_group LeftDrive = motor_group(LeftDriveMotorA, LeftDriveMotorB);
+motor Roller = motor(PORT12, ratio18_1, false);
+motor Indexer = motor(PORT13, ratio18_1, false);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable
@@ -26,6 +28,8 @@ bool RemoteControlCodeEnabled = true;
 // define variables used for controlling motors based on controller inputs
 bool Controller1LeftShoulderControlMotorsStopped = true;
 bool Controller1RightShoulderControlMotorsStopped = true;
+bool Controller1UpDownButtonsControlMotorsStopped = true;
+bool Controller1XBButtonsControlMotorsStopped = true;
 
 // define a task that will handle monitoring inputs from Controller1
 int rc_auto_loop_function_Controller1() {
@@ -56,6 +60,30 @@ int rc_auto_loop_function_Controller1() {
         intake.stop();
         // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
         Controller1RightShoulderControlMotorsStopped = true;
+      }
+      // check the ButtonUp/ButtonDown status to control Indexer
+      if (Controller1.ButtonUp.pressing()) {
+        Indexer.spin(forward);
+        Controller1UpDownButtonsControlMotorsStopped = false;
+      } else if (Controller1.ButtonDown.pressing()) {
+        Indexer.spin(reverse);
+        Controller1UpDownButtonsControlMotorsStopped = false;
+      } else if (!Controller1UpDownButtonsControlMotorsStopped) {
+        Indexer.stop();
+        // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
+        Controller1UpDownButtonsControlMotorsStopped = true;
+      }
+      // check the ButtonX/ButtonB status to control Roller
+      if (Controller1.ButtonX.pressing()) {
+        Roller.spin(forward);
+        Controller1XBButtonsControlMotorsStopped = false;
+      } else if (Controller1.ButtonB.pressing()) {
+        Roller.spin(reverse);
+        Controller1XBButtonsControlMotorsStopped = false;
+      } else if (!Controller1XBButtonsControlMotorsStopped) {
+        Roller.stop();
+        // set the toggle so that we don't constantly tell the motor to stop when the buttons are released
+        Controller1XBButtonsControlMotorsStopped = true;
       }
     }
     // wait before repeating the process

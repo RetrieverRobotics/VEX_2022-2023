@@ -15,6 +15,8 @@
 // intake               motor         11              
 // RightDrive           motor_group   6, 7            
 // LeftDrive            motor_group   17, 16          
+// Roller               motor         12              
+// Indexer              motor         13              
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
@@ -72,12 +74,16 @@ void autonomous(void) {
 
 void usercontrol(void) {
   // User control code here, inside the loop
+  intake.setVelocity(65,percent);
+  Roller.setVelocity(65,percent);
+
+
   while (1) {
 
     if (Controller1.ButtonA.pressing()){
       FlyWheel.setVelocity(100,percent);
     }
-    else if(Controller1.ButtonB.pressing()){
+    else if(Controller1.ButtonY.pressing()){
       FlyWheel.setVelocity(65,percent);
     }
 
