@@ -10,6 +10,7 @@ extern motor_group RightDrive;
 extern motor_group LeftDrive;
 extern motor Roller;
 extern motor Indexer;
+extern limit LimitSwitchA;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
